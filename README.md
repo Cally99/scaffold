@@ -109,7 +109,7 @@ All the environment variables are stored in files in the .envs directory. You sh
 * POSTGRES_HOST=postgres
 * POSTGRES_PORT=5432
 
-The following setting only needs to be present in the production environment:
+The following setting needs to be present in the production and qa environments but does not apply to the development environment:
 
 * GUNICORN_CMD_ARGS=--bind 0.0.0.0:8000 --log-file=- --worker-tmp-dir /dev/shm --workers=2 --threads=4 --worker-class=gthread
 
