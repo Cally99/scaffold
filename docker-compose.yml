@@ -5,8 +5,19 @@ services:
     image: backend
     build:
       context: ./backend
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:11.3-alpine
+    ports:
+      - 54320:5432
+    env_file: ./envs/dev.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
   nginx:
     build:
       context: .
     depends_on:
       - backend
+volumes:
+  postgres_data:
