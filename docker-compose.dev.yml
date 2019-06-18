@@ -1,9 +1,14 @@
+# Extends docker-compose.yml
 version: '3.7'
 
 services:
   backend:
     command: python manage.py runserver 0.0.0.0:8000 --nostatic
     env_file: ./envs/dev.env
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend:/app
   frontend:
     image: node:10-alpine
     command: npm run serve
@@ -11,12 +16,17 @@ services:
       - ./frontend:/app
     working_dir: /app
   postgres:
+    image: postgres:11.3-alpine
     ports:
       - 54320:5432
     env_file: ./envs/dev.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
   nginx:
     build:
       dockerfile: ./nginx/Dockerfile.dev
     ports:
       - 8000:80
     env_file: ./envs/dev.env
+volumes:
+  postgres_data:

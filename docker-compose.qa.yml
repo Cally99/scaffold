@@ -1,0 +1,16 @@
+# Extends docker-compose.prod.yml
+version: '3.7'
+
+services:
+  backend:
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:11.3-alpine
+    ports:
+      - 54320:5432
+    env_file: ./envs/dev.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+volumes:
+  postgres_data:

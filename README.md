@@ -10,27 +10,12 @@ Just a basic project scaffold for Django/Vue/Postgres/Docker/AWS/etc. The produc
   * pipenv
   * nodejs
   * vue-cli
+  * AWS CLI (if you'll be deploying to AWS)
 * Check out source from Github and cd into the project directory.
 * Get .env files out of secure storage and add to ./envs. See the section below on Environment Variables.
 * Change to ./backend and run `pipenv update` to pull down all Python dependencies.
 * Change to ./frontend and run `npm install` to pull down all the JS dependencies.
 * Follow the rest of the instructions for Starting a development environment.
-
-## Configuring your editor to point to the virtualenv Python
-
-In the ./backend directory run `pipenv --venv` to get the path to the virtualenv Python,
-then configure your editor to point to that path as its Python.
-In Visual Studio Code this can be done in .vscode/settings.json
-by setting the python.pythonPath variable.
-
-## Adding new Python dependencies
-
-```shell
-> cd ./backend
-> pipenv install foo
-> cd ..
-> make dev-up
-```
 
 ## Starting a development environment
 
@@ -48,22 +33,35 @@ You can tear down the environment by hitting Ctrl-C, or in another terminal:
 > make dev-down
 ```
 
-## Starting a production environment
+## Starting a QA testing environment
 
-First, ensure that you have the necessary files in place such that HTTPS works correctly, as that is a requirement in the production configuration. See the section below on SSL.
+The QA testing environment is intended to be as close to production as possible and still able to run on a local machine. Currently, the major difference is that it will spin up a Postgres database instead of using AWS RDS, but there may be further divergences down the road. To use this environment, first ensure that you have the necessary files in place such that HTTPS works correctly, as that is a requirement in the production configuration. See the section below on SSL.
 
 ```shell
-> make prod-up
+> make qa-up
 ```
 
-This will build and start a system that is similar to production, complete with Nginx reverse proxying to a Gunicorn application server on the backend and serving Vue itself on the frontend.
+This will build and start a system that is similar to production, complete with Nginx reverse proxying to a Gunicorn application server on the backend and serving Vue itself on the frontend, all over HTTPS.
 
 Check <http://localhost/> to ensure things are working. You should be redirected to <https://localhost/> if things are working correctly. If you used a self-signed certificate (hopefully only for your own testing, *not* actual production) then you'll likely get the big scary warning in your browser about it not being secure.
 
 You can tear down the environment by:
 
 ```shell
-> make prod-down
+> make qa-down
+```
+
+## Configuring your editor to point to the virtualenv Python
+
+In the ./backend directory run `pipenv --venv` to get the path to the virtualenv Python, then configure your editor to point to that path as its Python. In Visual Studio Code this can be done in .vscode/settings.json by setting the python.pythonPath variable.
+
+## Adding new Python dependencies
+
+```shell
+> cd ./backend
+> pipenv install foo
+> cd ..
+> make dev-up
 ```
 
 ## Creating a new backend app
@@ -110,7 +108,6 @@ All the environment variables are stored in files in the .envs directory. You sh
 * POSTGRES_PASSWORD=YOUR_DB_PASSWORD
 * POSTGRES_HOST=postgres
 * POSTGRES_PORT=5432
-* RUN_DB_MIGRATIONS=probably true in Development and false in Production, but change as appropriate
 
 The following setting only needs to be present in the production environment:
 
@@ -129,3 +126,7 @@ SSL is a hard requirement in the production configuration and all HTTP requests 
 * app.crt
 * app.key
 * app.pem
+
+## Deploying to AWS
+
+TODO

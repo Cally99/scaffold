@@ -7,11 +7,9 @@ done
 
 echo "PostgreSQL started."
 
-if [ "$RUN_DB_MIGRATIONS" = "true" ]; then
-    echo "Running database migrations..."
-    python manage.py migrate --no-input
-    echo "Finished running database migrations."
-fi
+echo "Running database migrations..."
+python manage.py migrate --no-input
+echo "Finished running database migrations."
 
 echo "Collecting static files..."
 python manage.py collectstatic --no-input

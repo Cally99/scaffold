@@ -4,11 +4,11 @@ dev-up:
 dev-down:
 	docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 
-prod-up:
-	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
+qa-up:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.qa.yml up --build -d
 
-prod-down:
-	docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
+qa-down:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.qa.yml down
 
 # Some convenience functions for working with Django. If you need more
 # then you'll have to run manage.py on your own by starting a shell
