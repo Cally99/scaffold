@@ -95,13 +95,13 @@ With the development environment running:
 
 All the environment variables are stored in a .env file in the project root. The production variables should all be stored in Heroku Config Vars. The following is a listing of all configuration variables that are available:
 
-Always required:
+### Always required
 
 * DOMAIN=localhost:8000 in development, your URL in production
 * DJANGO_DEBUG=true in development, false in production
 * DJANGO_SECRET_KEY=Your Django app's secret key
 
-Required in development:
+### Required in development
 
 * POSTGRES_DB=
 * POSTGRES_USER=
@@ -109,15 +109,17 @@ Required in development:
 * POSTGRES_HOST=
 * POSTGRES_PORT=
 
-Always optional:
+### Always optional
 
 * DJANGO_EMAIL_BACKEND=Defaults to the console-based version which makes the next two settings irrelevant. Check [the docs](https://docs.djangoproject.com/en/2.2/topics/email/#email-backends) for more information.
 * DJANGO_EMAIL_HOST=
 * DJANGO_EMAIL_PORT=
 
-Optional in production:
+### Optional in production
 
 * DJANGO_STATIC_HOST=If using a CDN, set to your CDN's URL. See [here](http://whitenoise.evans.io/en/stable/django.html#instructions-for-amazon-cloudfront) for more information.
+
+**NOTE:** In production, Heroku will automatically provide a DATABASE_URL configuration variable which will be injested by Django in place of the other database configuration variables.
 
 ## Deploying to Heroku
 
