@@ -1,11 +1,7 @@
 // vue.config.js
-const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
 module.exports = {
   lintOnSave: false,
-  publicPath: IS_PRODUCTION
-    ? process.env.DOMAIN + '/static'
-    : '/',
   devServer: {
     hot: true,
     hotOnly: true,

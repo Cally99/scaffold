@@ -1,6 +1,5 @@
-# Psycopg2 must be built from source on Alpine and it doesn't
-# seem to work with pipenv and I don't want to screw with apk right now.
-FROM python:3.7-slim-stretch
+# Base backend configuration, which is used in development.
+FROM python:3.7-slim-stretch AS base
 
 LABEL Name=backend
 
@@ -24,13 +23,20 @@ RUN pip install pipenv
 COPY Pipfile Pipfile.lock /app/
 RUN pipenv install --system --deploy
 
-# Run as non-root.
-RUN groupadd -g 999 appuser && \
-    useradd -r -u 999 -g appuser appuser
-USER appuser
-
 # Copy project code.
 COPY . /app/
 
-# Run initialization script.
-ENTRYPOINT ["./scripts/dev-entrypoint.sh"]
+# Production configuration.
+FROM base as prod
+
+# Add a non-root user.
+RUN groupadd -g 999 appuser && \
+    useradd -r -u 999 -g appuser appuser
+
+# In production we will need to change ownership of the files to our
+# non-root user since we won't be using a volume
+RUN chown -R appuser /app/ && \
+    chgrp -R appuser /app/
+
+# Run as non-root user.
+USER appuser

@@ -8,12 +8,6 @@ while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
 done
 echo "PostgreSQL started."
 
-echo "Running database migrations..."
-python manage.py migrate --no-input
-echo "Finished running database migrations."
+( exec "./scripts/deployment-tasks.sh" )
 
-echo "Collecting static files..."
-python manage.py collectstatic --no-input
-echo "Finished collecting static files."
-
-exec "$@"
+python manage.py runserver 0.0.0.0:8000 --nostatic

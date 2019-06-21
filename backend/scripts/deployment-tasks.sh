@@ -9,5 +9,3 @@ echo "Finished running database migrations."
 echo "Collecting static files..."
 python manage.py collectstatic --no-input
 echo "Finished collecting static files."
-
-exec "$@"
