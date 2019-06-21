@@ -1,6 +1,19 @@
 # scaffold
 
-Just a basic project scaffold for Django/Vue/Postgres/Docker/AWS/etc. The production configuration has NGinx serving Vue.js on the frontend and reverse-proxying to a Django application running a REST API on the backend. The project is containerized using Docker and orchestrated with Docker Compose.
+A basic project framework for building apps that have a Vue front end, Django back end, REST API in the middle, user sign up and authentication ready, Dockerized development and production environments, with a configuration for deployment to Heroku.
+
+## Includes
+
+* Django
+* Django REST framework
+* Django REST Auth and All Auth
+* Vue
+* Vue Router
+* Vuex
+* Vue CLI 3
+* Gunicorn
+* Dockerized development environment with Docker Compose
+* Deployment to Heroku in Docker containers
 
 ## Setup
 
@@ -10,9 +23,9 @@ Just a basic project scaffold for Django/Vue/Postgres/Docker/AWS/etc. The produc
   * pipenv
   * nodejs
   * vue-cli
-  * AWS CLI (if you'll be deploying to AWS)
+  * Heroku CLI
 * Check out source from Github and cd into the project directory.
-* Get .env files out of secure storage and add to ./envs. See the section below on Environment Variables.
+* Add a .env file to the project root that contains all relevant environment variables. See the section below on Environment Variables.
 * Change to ./backend and run `pipenv update` to pull down all Python dependencies.
 * Change to ./frontend and run `npm install` to pull down all the JS dependencies.
 * Follow the rest of the instructions for Starting a development environment.
@@ -23,7 +36,7 @@ Just a basic project scaffold for Django/Vue/Postgres/Docker/AWS/etc. The produc
 > make dev-up
 ```
 
-This will build and start a development environment. You should see all kinds of logs in the shell from the various Docker containers. Both the frontend and backend should automatically pick up changes to the filesystems as you do your development.
+This will build and start the development environment. You should see all kinds of logs in the shell from the various Docker containers. Both the frontend and backend should automatically pick up changes to the filesystems as you do your development.
 
 Check <http://localhost:8000/> to ensure things are working.
 
@@ -31,24 +44,6 @@ You can tear down the environment by hitting Ctrl-C, or in another terminal:
 
 ```shell
 > make dev-down
-```
-
-## Starting a QA testing environment
-
-The QA testing environment is intended to be as close to production as possible and still able to run on a local machine. Currently, the major difference is that it will spin up a Postgres database instead of using AWS RDS, but there may be further divergences down the road. To use this environment, first ensure that you have the necessary files in place such that HTTPS works correctly, as that is a requirement in the production configuration. See the section below on SSL.
-
-```shell
-> make qa-up
-```
-
-This will build and start a system that is similar to production, complete with Nginx reverse proxying to a Gunicorn application server on the backend and serving Vue itself on the frontend, all over HTTPS.
-
-Check <http://localhost/> to ensure things are working. You should be redirected to <https://localhost/> if things are working correctly. If you used a self-signed certificate (hopefully only for your own testing, *not* actual production) then you'll likely get the big scary warning in your browser about it not being secure.
-
-You can tear down the environment by:
-
-```shell
-> make qa-down
 ```
 
 ## Configuring your editor to point to the virtualenv Python
@@ -66,7 +61,7 @@ In the ./backend directory run `pipenv --venv` to get the path to the virtualenv
 
 ## Creating a new backend app
 
-With an environment running, to start a new app called foo:
+With the development environment running, to start a new app called foo:
 
 ```shell
 > make new-backend-app name=foo
@@ -74,7 +69,7 @@ With an environment running, to start a new app called foo:
 
 ## Creating database migration files
 
-With an environment running:
+With the development environment running:
 
 ```shell
 > make migrations
@@ -82,7 +77,7 @@ With an environment running:
 
 ## Migrating the database
 
-With an environment running, to actually execute the database migration:
+With the development environment running, to actually execute the database migration:
 
 ```shell
 > make migrate-db
@@ -90,7 +85,7 @@ With an environment running, to actually execute the database migration:
 
 ## Creating a superuser
 
-With an environment running:
+With the development environment running:
 
 ```shell
 > make superuser
@@ -98,35 +93,32 @@ With an environment running:
 
 ## Environment variables
 
-All the environment variables are stored in files in the .envs directory. You should store the settings in some sort of secret vault, be it Lastpass or something like AWS Secrets Manager, and generate the files with the appropriate data. There should be dev.env and prod.env files in this directory with the following variables:
+All the environment variables are stored in a .env file in the project root. The production variables should all be stored in Heroku Config Vars. The following is a listing of all configuration variables that are available:
 
-* DOMAIN=YOUR_DOMAIN_NAME
-* DJANGO_DEBUG=true in Development, false in Production
-* DJANGO_SECRET_KEY=YOUR_SECRET_KEY
-* POSTGRES_DB=YOUR_DB_NAME
-* POSTGRES_USER=YOUR_DB_USER
-* POSTGRES_PASSWORD=YOUR_DB_PASSWORD
-* POSTGRES_HOST=postgres
-* POSTGRES_PORT=5432
+Always required:
 
-The following setting needs to be present in the production and qa environments but does not apply to the development environment:
+* DOMAIN=localhost:8000 in development, your URL in production
+* DJANGO_DEBUG=true in development, false in production
+* DJANGO_SECRET_KEY=Your Django app's secret key
 
-* GUNICORN_CMD_ARGS=--bind 0.0.0.0:8000 --log-file=- --worker-tmp-dir /dev/shm --workers=2 --threads=4 --worker-class=gthread
+Required in development:
 
-These are optional settings that have reasonably safe defaults:
+* POSTGRES_DB=
+* POSTGRES_USER=
+* POSTGRES_PASSWORD=
+* POSTGRES_HOST=
+* POSTGRES_PORT=
 
-* DJANGO_EMAIL_BACKEND= See <https://docs.djangoproject.com/en/2.2/topics/email/#email-backends>
-* DJANGO_EMAIL_HOST=smtp server hostname or None if using console-based email backend
-* DJANGO_EMAIL_PORT=smtp server port or -1 if using console-based email backend
+Always optional:
 
-## SSL
+* DJANGO_EMAIL_BACKEND=Defaults to the console-based version which makes the next two settings irrelevant. Check [the docs](https://docs.djangoproject.com/en/2.2/topics/email/#email-backends) for more information.
+* DJANGO_EMAIL_HOST=
+* DJANGO_EMAIL_PORT=
 
-SSL is a hard requirement in the production configuration and all HTTP requests will be redirected to the appropriate HTTPS route. Feel free to use a self-signed cert for development and testing, but *do not* use it for production. Just get one from [Let's Encrypt](<https://letsencrypt.org>) or whatever. You need to have the following files present in /nginx/ssl:
+Optional in production:
 
-* app.crt
-* app.key
-* app.pem
+* DJANGO_STATIC_HOST=If using a CDN, set to your CDN's URL. See [here](http://whitenoise.evans.io/en/stable/django.html#instructions-for-amazon-cloudfront) for more information.
 
-## Deploying to AWS
+## Deploying to Heroku
 
 TODO

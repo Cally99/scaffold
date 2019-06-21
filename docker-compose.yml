@@ -5,19 +5,33 @@ services:
     image: backend
     build:
       context: ./backend
+      dockerfile: Dockerfile.dev
+    command: python manage.py runserver 0.0.0.0:8000 --nostatic
+    env_file: ./.env
+    volumes:
+      - ./backend:/app
     depends_on:
       - postgres
+  frontend:
+    image: node:10-alpine
+    command: npm run serve
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
   postgres:
     image: postgres:11.3-alpine
     ports:
       - 54320:5432
-    env_file: ./envs/dev.env
+    env_file: ./.env
     volumes:
       - postgres_data:/var/lib/postgresql/data/
   nginx:
     build:
-      context: .
+      context: ./nginx
     depends_on:
       - backend
+    ports:
+      - 8000:80
+    env_file: ./.env
 volumes:
   postgres_data:

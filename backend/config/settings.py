@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import environ
+import dj_database_url
 
 # Load environment variables.
 env = environ.Env()
@@ -102,8 +103,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+DATABASES = {}
+database_url = env.str('DATABASE_URL', default = '')
+if database_url:
+    # In production there will be a DATABASE_URL environment variable provided by Heroku.
+    conn_max_age = env.int('CONN_MAX_AGE', default = 600)
+    DATABASES['default'] = dj_django_url.config(database_url, conn_max_age = conn_max_age, ssl_require = True)
+else:
+    # In development these settings need to be provided in a .env file.
+    DATABASES['default'] = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': env.str('POSTGRES_DB'),
         'USER': env.str('POSTGRES_USER'),
@@ -111,7 +119,6 @@ DATABASES = {
         'HOST': env.str('POSTGRES_HOST'),
         'PORT': env.int('POSTGRES_PORT'),
     }
-}
 
 
 # Password validation
@@ -151,7 +158,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_ROOT = str(BASE_DIR('staticfiles'))
-STATIC_URL = '/static/'
+STATIC_HOST = env.str('DJANGO_STATIC_HOST', default = '')
+STATIC_URL = STATIC_HOST + '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
