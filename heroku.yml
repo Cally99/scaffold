@@ -4,10 +4,9 @@ setup:
       as: DATABASE
 build:
   docker:
-    backend: ./backend/Dockerfile
+    backend: ./Dockerfile-backend
     web:
-      context: .
-      dockerfile: ./nginx/Dockerfile
+      dockerfile: ./Dockerfile-web
       target: prod
 release:
   command:
