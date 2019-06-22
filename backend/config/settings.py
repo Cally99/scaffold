@@ -105,6 +105,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {}
 database_url = env.str('DATABASE_URL', default = '')
+print(f"DATABASE_URL: {database_url}")
 if database_url:
     # In production there will be a DATABASE_URL environment variable provided by Heroku.
     conn_max_age = env.int('CONN_MAX_AGE', default = 600)
