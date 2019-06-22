@@ -4,7 +4,8 @@ services:
   backend:
     image: backend
     build:
-      context: ./backend
+      context: .
+      dockerfile: ./Dockerfile-backend
       target: base
     command: ./scripts/dev-entrypoint.sh
     env_file: ./.env
@@ -26,10 +27,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
   nginx:
+    image: nginx
     build:
       context: .
-      dockerfile: ./nginx/Dockerfile
-      target: dev
+      dockerfile: ./Dockerfile-web
+      target: prod
     command: nginx -g 'daemon off;'
     depends_on:
       - backend
