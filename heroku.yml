@@ -10,7 +10,7 @@ build:
       target: prod
 release:
   command:
-    - ./app/scripts/deployment-tasks.sh
+    - ./scripts/deployment-tasks.sh
   image: backend
 run:
   web: envsubst '$DOMAIN' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf && nginx -g 'daemon off;'
