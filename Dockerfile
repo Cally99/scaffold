@@ -1,6 +1,6 @@
 # --------------------
 # Base backend configuration which is used in development.
-FROM python:3.7-slim-stretch AS base
+FROM heroku/heroku:18 AS base
 
 LABEL Name=backend
 
