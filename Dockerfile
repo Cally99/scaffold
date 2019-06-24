@@ -35,7 +35,7 @@ COPY ./backend /app/
 FROM node:10-alpine as build-deps
 WORKDIR /app
 
-# Build Javascript.
+# Build frontend assets.
 COPY ./frontend /app/
 RUN npm install && npm run build
 
@@ -43,7 +43,7 @@ RUN npm install && npm run build
 # Prod configuration, also used for local testing.
 FROM base as prod
 
-# Copy over compiled Javascript.
+# Copy over built frontend assets.
 COPY --from=build-deps /app/dist/ /app/dist/
 
 # Move a file in place for Heroku to enable remote SSH into the container.

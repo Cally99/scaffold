@@ -145,8 +145,28 @@ All the environment variables are stored in a .env file in the project root. The
 
 ## Deploying to Heroku
 
-Set environment variables.
-heroku stack:set container
-Add database resource
-Add heroku remote
+### In Heroku Web Console
+
+* Set environment variables using Config Vars in Settings tab.
+* Add Heroku Postgres Add-on in Resources tab.
+
+### From Heroku CLI
+
+Set things up so that Heroku uses the Docker container stack and ensure that at least one dyno is running after release:
+
+```shell
+> heroku stack:set container
+> heroku ps:scale web=1
+```
+
+Add the Heroku remote to your repository:
+
+```shell
+> heroku git:remote -a name-of-your-project
+```
+
+Make some changes and then when ready to release:
+
+```shell
 git push heroku master
+```

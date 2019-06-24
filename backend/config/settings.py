@@ -163,6 +163,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_ROOT = str(BASE_DIR('staticfiles'))
+print(f'STATIC_ROOT: {STATIC_ROOT}')
+print(os.path.exists(STATIC_ROOT))
 STATIC_HOST = env.str('DJANGO_STATIC_HOST', default = '')
 STATIC_URL = STATIC_HOST + '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -170,6 +172,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # If in the production environment add the dist/static directory so it gets served by collectstatic.
 if os.path.exists(str(BASE_DIR('dist'))):
     STATICFILES_DIRS = [
+        str(BASE_DIR('dist')),
         str(BASE_DIR('dist/static')),
     ]
 
