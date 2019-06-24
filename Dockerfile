@@ -1,6 +1,6 @@
 # --------------------
 # Base backend configuration which is used in development.
-FROM heroku/heroku:18 AS base
+FROM python:3.7-slim-stretch AS base
 
 LABEL Name=backend
 
@@ -15,7 +15,10 @@ WORKDIR /app
 
 # Install system dependencies.
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends netcat \
+    && apt-get install -y --no-install-recommends \
+        netcat \
+        curl \
+        openssh-server \
     && rm -rf /var/lib/apt/lists/*
 
 # Install project dependencies.
@@ -26,6 +29,9 @@ RUN pipenv install --system --deploy
 
 # Copy backend code.
 COPY ./backend /app/
+
+# Run initialization script.
+ENTRYPOINT ["./scripts/dev-entrypoint.sh"]
 
 # --------------------
 # Build Javascript for test in a separate stage.
