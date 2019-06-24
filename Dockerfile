@@ -30,9 +30,6 @@ RUN pipenv install --system --deploy
 # Copy backend code.
 COPY ./backend /app/
 
-# Run initialization script.
-ENTRYPOINT ["./scripts/dev-entrypoint.sh"]
-
 # --------------------
 # Build Javascript for test in a separate stage.
 FROM node:10-alpine as build-deps
