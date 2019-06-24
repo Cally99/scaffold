@@ -27,9 +27,6 @@ RUN pipenv install --system --deploy
 # Copy backend code.
 COPY ./backend /app/
 
-# Run initialization script.
-ENTRYPOINT ["./scripts/entrypoint.sh"]
-
 # --------------------
 # Build Javascript for test in a separate stage.
 FROM node:10-alpine as build-deps
@@ -40,8 +37,8 @@ COPY ./frontend /app/
 RUN npm install && npm run build
 
 # --------------------
-# Test configuration.
-FROM base as test
+# Prod configuration, also used for local testing.
+FROM base as prod
 
 # Copy over compiled Javascript.
 COPY --from=build-deps /app/dist/ /app/dist/

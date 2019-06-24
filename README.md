@@ -145,5 +145,8 @@ All the environment variables are stored in a .env file in the project root. The
 
 ## Deploying to Heroku
 
+Set environment variables.
 heroku stack:set container
 Add database resource
+Add heroku remote
+git push heroku master

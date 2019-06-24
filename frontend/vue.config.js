@@ -1,9 +1,15 @@
 // vue.config.js
 
+const IS_PRODUCTION = process.env.NODE_ENV === 'production'
+
 module.exports = {
   lintOnSave: false,
-  publicPath: '',
-  assetsDir: 'static',
+  publicPath: IS_PRODUCTION
+    ? ''
+    : '/',
+  assetsDir: IS_PRODUCTION
+    ? 'static'
+    : '',
   devServer: {
     hot: true,
     hotOnly: true,
