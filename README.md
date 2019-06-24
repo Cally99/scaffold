@@ -26,9 +26,12 @@ A basic project framework for building apps that have a Vue front end, Django ba
   * Heroku CLI
 * Check out source from Github and cd into the project directory.
 * Add a .env file to the project root that contains all relevant environment variables. See the section below on Environment Variables.
-* Change to ./backend and run `pipenv update` to pull down all Python dependencies.
-* Change to ./frontend and run `npm install` to pull down all the JS dependencies.
-* Follow the rest of the instructions for Starting a development environment.
+* Run the following and then see the section on Starting a development environment for further instructions.
+
+```shell
+> make init
+> make dev-up
+```
 
 ## Starting a development environment
 
@@ -44,6 +47,24 @@ You can tear down the environment by hitting Ctrl-C, or in another terminal:
 
 ```shell
 > make dev-down
+```
+
+## Starting a testing environment
+
+This environment tries to mimic the pattern of deployment as closely to Heroku as is reasonable. Specifically, it bundles up the Javascript and lets whitenoise serve the files up. Also, no code reloading happens when changes are made to the local filesystem. All requests are proxied to Gunicorn.
+
+```shell
+> make test-up
+```
+
+This will build and start the test environment.
+
+Check <http://localhost:8000/> to ensure things are working.
+
+You can tear down the environment by hitting Ctrl-C, or in another terminal:
+
+```shell
+> make test-down
 ```
 
 ## Configuring your editor to point to the virtualenv Python
@@ -114,6 +135,7 @@ All the environment variables are stored in a .env file in the project root. The
 * DJANGO_EMAIL_BACKEND=Defaults to the console-based version which makes the next two settings irrelevant. Check [the docs](https://docs.djangoproject.com/en/2.2/topics/email/#email-backends) for more information.
 * DJANGO_EMAIL_HOST=
 * DJANGO_EMAIL_PORT=
+* TLS_ENABLED=set true after SSL certificates have been configured in Heroku
 
 ### Optional in production
 
@@ -123,4 +145,5 @@ All the environment variables are stored in a .env file in the project root. The
 
 ## Deploying to Heroku
 
-TODO
+heroku stack:set container
+Add database resource

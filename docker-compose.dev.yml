@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  backend:
+    build:
+      target: base
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+  frontend:
+    image: node:10-alpine
+    command: npm run serve
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+  nginx:
+    build:
+      target: base

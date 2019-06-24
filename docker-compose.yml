@@ -5,20 +5,10 @@ services:
     image: backend
     build:
       context: .
-      dockerfile: ./Dockerfile-backend
-      target: base
-    command: ./scripts/dev-entrypoint.sh
+      dockerfile: ./backend/Dockerfile
     env_file: ./.env
-    volumes:
-      - ./backend:/app
     depends_on:
       - postgres
-  frontend:
-    image: node:10-alpine
-    command: npm run serve
-    volumes:
-      - ./frontend:/app
-    working_dir: /app
   postgres:
     image: postgres:11.3-alpine
     ports:
@@ -30,8 +20,7 @@ services:
     image: nginx
     build:
       context: .
-      dockerfile: ./Dockerfile-web
-      target: prod
+      dockerfile: ./nginx/Dockerfile
     command: nginx -g 'daemon off;'
     depends_on:
       - backend

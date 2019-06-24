@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import logout
 from django.urls import path, include
+from django.conf.urls import url
+from django.views.generic import TemplateView
 from allauth.account.views import confirm_email, password_reset
 from .api import api
 
@@ -24,11 +26,11 @@ urlpatterns = [
     path('api/', include(api.urls), name = 'api'),
     path('auth/', include('rest_auth.urls'), name = 'auth'),
     path('registration/', include('rest_auth.registration.urls'), name = 'registration'),
+    url(r'^$', TemplateView.as_view(template_name = 'index.html')),
 
-    # Necessary to make allauth send confirmation and reset emails correctly. Not externally routable.
+    # TODO: Remove or lock down these things somehow since I don't like having them exposed.
+    # HACK: Necessary to make allauth send confirmation and reset links/emails correctly.
     path('accounts/', include('allauth.urls')),
-
-    # HACK: Makes allauth generate the confirmation and reset links correctly.
     path('register/<key>', confirm_email, name = "account_confirm_email"),
     path('password_reset/<uidb64>/<token>', password_reset, name = "password_reset_confirm"),
 ]

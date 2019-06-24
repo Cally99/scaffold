@@ -30,14 +30,21 @@ SECRET_KEY = env.str('DJANGO_SECRET_KEY')
 
 DOMAIN = env.str('DOMAIN')
 
-# Production-specific settings
-if not DEBUG:
-    ALLOWED_HOSTS = ["*"]
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
+# Environment-specific settings:
+if DEBUG:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1',]
+else:
+    ALLOWED_HOSTS = [DOMAIN]
     X_FRAME_OPTIONS = 'DENY'
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Security settings that are enabled when using TLS.
+if env.bool('TLS_ENABLED', default = False):
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 # Django plug in apps go here.
 DJANGO_APPS = [
@@ -97,6 +104,10 @@ TEMPLATES = [
     },
 ]
 
+# If in the production environment add the dist directory so we can serve index.html.
+if os.path.exists(str(BASE_DIR('dist'))):
+    TEMPLATES[0]['DIRS'] = [str(BASE_DIR('dist'))]
+
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
@@ -104,14 +115,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {}
-database_url = env.str('DATABASE_URL', default = '')
-if database_url:
+if env.str('DATABASE_URL', default = ''):
     # In production there will be a DATABASE_URL environment variable provided by Heroku.
     conn_max_age = env.int('CONN_MAX_AGE', default = 600)
     DATABASES['default'] = dj_database_url.config('DATABASE_URL', conn_max_age = conn_max_age, ssl_require = True)
 else:
     # In development these settings need to be provided in a .env file.
     DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': env.str('POSTGRES_DB'),
         'USER': env.str('POSTGRES_USER'),
         'PASSWORD': env.str('POSTGRES_PASSWORD'),
@@ -160,6 +171,12 @@ STATIC_ROOT = str(BASE_DIR('staticfiles'))
 STATIC_HOST = env.str('DJANGO_STATIC_HOST', default = '')
 STATIC_URL = STATIC_HOST + '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# If in the production environment add the dist/static directory so it gets served by collectstatic.
+if os.path.exists(str(BASE_DIR('dist'))):
+    STATICFILES_DIRS = [
+        str(BASE_DIR('dist/static')),
+    ]
 
 
 # EMAIL CONFIGURATION

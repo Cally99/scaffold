@@ -2,6 +2,8 @@
 
 module.exports = {
   lintOnSave: false,
+  publicPath: '',
+  assetsDir: 'static',
   devServer: {
     hot: true,
     hotOnly: true,

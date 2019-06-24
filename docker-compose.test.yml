@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  backend:
+    build:
+      target: test
+    command: gunicorn config.wsgi --bind 0.0.0.0:8000 --log-file=- --worker-tmp-dir /dev/shm --workers=2 --threads=4 --worker-class=gthread
+  nginx:
+    build:
+      target: test

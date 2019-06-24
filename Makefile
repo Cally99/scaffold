@@ -1,8 +1,18 @@
+init:
+	cd ./backend; pipenv update
+	cd ./frontend; npm install
+
 dev-up:
-	docker-compose up --build
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 
 dev-down:
-	docker-compose down
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
+
+test-up:
+	docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build
+
+test-down:
+	docker-compose -f docker-compose.yml -f docker-compose.test.yml down
 
 # Some convenience functions for working with Django. If you need more
 # then you'll have to run manage.py on your own by starting a shell

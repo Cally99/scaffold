@@ -1,4 +1,5 @@
-# Base backend configuration, which is used in development.
+# --------------------
+# Base backend configuration which is used in development.
 FROM python:3.7-slim-stretch AS base
 
 LABEL Name=backend
@@ -26,8 +27,24 @@ RUN pipenv install --system --deploy
 # Copy backend code.
 COPY ./backend /app/
 
-# Production configuration.
-FROM base as prod
+# Run initialization script.
+ENTRYPOINT ["./scripts/entrypoint.sh"]
+
+# --------------------
+# Build Javascript for test in a separate stage.
+FROM node:10-alpine as build-deps
+WORKDIR /app
+
+# Build Javascript.
+COPY ./frontend /app/
+RUN npm install && npm run build
+
+# --------------------
+# Test configuration.
+FROM base as test
+
+# Copy over compiled Javascript.
+COPY --from=build-deps /app/dist/ /app/dist/
 
 # Add a non-root user.
 RUN groupadd -g 999 appuser && \
