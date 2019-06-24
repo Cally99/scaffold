@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "heroku-prebuild": "NODE_ENV=production cd ./frontend && npm install && npm build && cd .."
+  },
+  "cacheDirectories": [
+    "frontend/node_modules"
+  ]
+}
