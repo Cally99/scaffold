@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "vue-cli-service build --prefix frontend"
+    "build": "vue-cli-service build --prefix frontend",
     "postinstall": "npm run build --prefix frontend"
   }
 }
