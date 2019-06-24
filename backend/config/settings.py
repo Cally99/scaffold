@@ -101,10 +101,7 @@ TEMPLATES = [
 
 # If in the production environment add the dist directory so we can serve index.html.
 if os.path.exists(str(BASE_DIR('dist'))):
-    print('Adding /dist to TEMPLATES')
     TEMPLATES[0]['DIRS'] = [str(BASE_DIR('dist'))]
-else:
-    print('Skipping adding /dist to TEMPLATES')
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -172,12 +169,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # If in the production environment add the dist/static directory so it gets served by collectstatic.
 if os.path.exists(str(BASE_DIR('dist'))):
-    print('Adding dist/static to STATICFILES_DIRS.')
     STATICFILES_DIRS = [
         str(BASE_DIR('dist/static')),
     ]
-else:
-    print('Skipping adding anything to STATICFILES_DIRS.')
 
 # EMAIL CONFIGURATION
 EMAIL_BACKEND = env.str('DJANGO_EMAIL_BACKEND', default = 'django.core.mail.backends.console.EmailBackend')
