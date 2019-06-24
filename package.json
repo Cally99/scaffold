@@ -1,7 +1,6 @@
 {
-  "name": "scaffold",
-  "version": "0.1.0",
   "scripts": {
-    "heroku-postinstall": "npm install --prefix frontend && npm run build --prefix frontend"
+    "build": "vue-cli-service build --prefix frontend"
+    "postinstall": "npm run build --prefix frontend"
   }
 }
