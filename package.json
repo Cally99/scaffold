@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "preinstall": "cd ./frontend && npm install && npm run build && cd .."
+    "postinstall": "cd ./frontend && npm install && npm run build && cd .."
   },
   "cacheDirectories": [
     "frontend/node_modules"
