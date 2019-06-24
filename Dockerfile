@@ -49,6 +49,12 @@ FROM base as prod
 # Copy over compiled Javascript.
 COPY --from=build-deps /app/dist/ /app/dist/
 
+# Move a file in place for Heroku to enable remote SSH into the container.
+ADD ./backend/scripts/heroku-exec.sh /app/.profile.d
+
+# Ensure Bash is the default shell.
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
 # Add a non-root user.
 RUN groupadd -g 999 appuser && \
     useradd -r -u 999 -g appuser appuser
