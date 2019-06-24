@@ -2,6 +2,6 @@
   "name": "scaffold",
   "version": "0.1.0",
   "scripts": {
-    "postbuild": "cd ./frontend && npm install && npm run build"
+    "postbuild": "npm install --prefix frontend && npm run build --prefix frontend"
   }
 }
