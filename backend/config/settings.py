@@ -29,15 +29,10 @@ DEBUG = env.bool('DJANGO_DEBUG')
 SECRET_KEY = env.str('DJANGO_SECRET_KEY')
 
 DOMAIN = env.str('DOMAIN')
-
-# Environment-specific settings:
-if DEBUG:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1',]
-else:
-    ALLOWED_HOSTS = [DOMAIN]
-    X_FRAME_OPTIONS = 'DENY'
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', DOMAIN,]
+X_FRAME_OPTIONS = 'DENY'
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Security settings that are enabled when using TLS.
 if env.bool('TLS_ENABLED', default = False):
