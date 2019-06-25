@@ -1,19 +1,20 @@
 # scaffold
 
-A basic project framework for building apps that have a Vue front end, Django back end, REST API in the middle, user sign up and authentication ready, Dockerized development and production environments, with a configuration for deployment to Heroku.
+A basic project framework for building apps that have a Vue front end, Django back end, REST API in the middle, user sign up and authentication ready, Dockerized development and production environments, with a configuration for deployment to Heroku. Pull requests and feedback are welcome!
 
 ## Includes
 
 * Django
-* Django REST framework
-* Django REST Auth and All Auth
+* django-rest-framework
+* django-rest-auth
+* django-all-auth
 * Vue
 * Vue Router
 * Vuex
 * Vue CLI 3
 * Gunicorn
 * Dockerized development environment with Docker Compose
-* Deployment to Heroku in Docker containers
+* Deployment to Heroku in a Docker container
 
 ## Setup
 
@@ -170,3 +171,29 @@ Make some changes and then when ready to release:
 ```shell
 git push heroku master
 ```
+
+After a minute or two you should be able to open your app running in Heroku as such:
+
+```shell
+> heroku open
+```
+
+If that does not work you'll want check the Resources tab in the Heroku Dashboard to ensure that a dyno is actually running. If it isn't go ahead and start it.
+
+If you wish to view the application logs in realtime, open another shell and do the following:
+
+```shell
+> heroku logs --tail
+```
+
+The next thing you'll probably want to do is create a superuser so you can access the Django Admin console:
+
+```shell
+> heroku run python master.py createsuperuser
+```
+
+You should now be able to access and login to the Django Admin console at /admin.
+
+The next thing you'll want to do is log in to the Admin console, navigate to Sites, and change the existing site Domain Name and Display Name to the URL of your app. This will ensure that Account Confirmation and Password Reset emails contain the correct URLs.
+
+Pull requests and feedback are welcome. Enjoy!
