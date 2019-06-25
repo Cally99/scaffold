@@ -163,8 +163,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_ROOT = str(BASE_DIR('staticfiles'))
-print(f'STATIC_ROOT: {STATIC_ROOT}')
-print(os.path.exists(STATIC_ROOT))
 STATIC_HOST = env.str('DJANGO_STATIC_HOST', default = '')
 STATIC_URL = STATIC_HOST + '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
