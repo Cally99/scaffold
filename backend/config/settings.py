@@ -172,7 +172,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # If in the production environment add the dist/static directory so it gets served by collectstatic.
 if os.path.exists(str(BASE_DIR('dist'))):
     STATICFILES_DIRS = [
-        str(BASE_DIR('dist')),
         str(BASE_DIR('dist/static')),
     ]
 

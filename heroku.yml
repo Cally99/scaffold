@@ -9,7 +9,9 @@ build:
       target: prod
 release:
   command:
-    - ./scripts/deployment-tasks.sh
+    # This runs in a separate dyno before release.
+    # As such, can't run collectstatic here, must be run as part of startup.
+    - python manage.py migrate --no-input
   image: web
 run:
-  web: gunicorn config.wsgi --log-file - --worker-tmp-dir /dev/shm --workers=2 --threads=4 --worker-class=gthread
+  web: ./scripts/prod-entrypoint.sh
