@@ -189,7 +189,7 @@ If you wish to view the application logs in realtime, open another shell and do 
 The next thing you'll probably want to do is create a superuser so you can access the Django Admin console:
 
 ```shell
-> heroku run python master.py createsuperuser
+> heroku run python manage.py createsuperuser
 ```
 
 You should now be able to access and login to the Django Admin console at /admin.
