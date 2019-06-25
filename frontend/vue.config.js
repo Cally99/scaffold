@@ -4,9 +4,6 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
 module.exports = {
   lintOnSave: false,
-  publicPath: IS_PRODUCTION
-    ? ''
-    : '/',
   assetsDir: IS_PRODUCTION
     ? 'static'
     : '',

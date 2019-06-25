@@ -101,7 +101,7 @@ TEMPLATES = [
 
 # If in the production environment add the dist directory so we can serve index.html.
 if os.path.exists(str(BASE_DIR('dist'))):
-    TEMPLATES[0]['DIRS'] = [str(BASE_DIR('dist'))]
+    TEMPLATES[0]['DIRS'].append(str(BASE_DIR('dist')))
 
 WSGI_APPLICATION = 'config.wsgi.application'
 

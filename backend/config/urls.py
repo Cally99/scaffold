@@ -26,7 +26,7 @@ urlpatterns = [
     path('api/', include(api.urls), name = 'api'),
     path('auth/', include('rest_auth.urls'), name = 'auth'),
     path('registration/', include('rest_auth.registration.urls'), name = 'registration'),
-    url(r'^$', TemplateView.as_view(template_name = 'index.html')),
+    url(r'^.*$', TemplateView.as_view(template_name = 'index.html')),
 
     # TODO: Remove or lock down these things somehow since I don't like having them exposed.
     # HACK: Necessary to make allauth send confirmation and reset links/emails correctly.
