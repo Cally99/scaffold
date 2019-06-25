@@ -125,11 +125,11 @@ All the environment variables are stored in a .env file in the project root. The
 
 ### Required in development
 
-* POSTGRES_DB=
-* POSTGRES_USER=
-* POSTGRES_PASSWORD=
-* POSTGRES_HOST=
-* POSTGRES_PORT=
+* POSTGRES_DB=Pick a reasonable value, such as scaffold
+* POSTGRES_USER=Pick a reasonable value, such as scaffold_user
+* POSTGRES_PASSWORD=Pick a reasonably secure password
+* POSTGRES_HOST=postgres, which is the name of the Docker container
+* POSTGRES_PORT=5432
 
 ### Always optional
 
