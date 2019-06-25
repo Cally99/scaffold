@@ -136,11 +136,11 @@ All the environment variables are stored in a .env file in the project root. The
 * DJANGO_EMAIL_BACKEND=Defaults to the console-based version which makes the next two settings irrelevant. Check [the docs](https://docs.djangoproject.com/en/2.2/topics/email/#email-backends) for more information.
 * DJANGO_EMAIL_HOST=
 * DJANGO_EMAIL_PORT=
-* TLS_ENABLED=set true after SSL certificates have been configured in Heroku
 
 ### Optional in production
 
 * DJANGO_STATIC_HOST=If using a CDN, set to your CDN's URL. See [here](http://whitenoise.evans.io/en/stable/django.html#instructions-for-amazon-cloudfront) for more information.
+* TLS_ENABLED=set true after SSL certificates have been configured in Heroku
 
 **NOTE:** In production, Heroku will automatically provide a DATABASE_URL configuration variable which will be injested by Django in place of the other database configuration variables.
 
