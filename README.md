@@ -153,6 +153,12 @@ All the environment variables are stored in a .env file in the project root. The
 
 ### From Heroku CLI
 
+Add the Heroku remote so you can deploy with git push:
+
+```shell
+> heroku git:remote -a your_app_name
+```
+
 Set things up so that Heroku uses the Docker container stack and ensure that at least one dyno is running after release:
 
 ```shell
