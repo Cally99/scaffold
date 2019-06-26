@@ -1,6 +1,6 @@
-# scaffold
+# Prismatic.io
 
-A basic project framework for building apps that have a Vue front end, Django back end, REST API in the middle, user sign up and authentication ready, Dockerized development and production environments, with a configuration for deployment to Heroku. Pull requests and feedback are welcome!
+This is the main project for [Prismatic.io](https://prismatic.io). It is currently based off the [prismatic-scaffold](https://github.com/prismatic-io/scaffold) project.
 
 ## Includes
 
