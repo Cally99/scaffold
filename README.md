@@ -159,7 +159,7 @@ Add the Heroku remote so you can deploy with git push:
 > heroku git:remote -a your_app_name
 ```
 
-Set things up so that Heroku uses the Docker container stack.
+Set things up so that Heroku uses the Docker container stack:
 
 ```shell
 > heroku stack:set container
