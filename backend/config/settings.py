@@ -28,15 +28,11 @@ DEBUG = env.bool('DJANGO_DEBUG')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str('DJANGO_SECRET_KEY')
 
-DOMAIN = env.str('DOMAIN')
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS')
+
 X_FRAME_OPTIONS = 'DENY'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
-
-if DEBUG:
-    ALLOWED_HOSTS = ['*']
-else:
-    ALLOWED_HOSTS = [DOMAIN]
 
 # Security settings that are enabled when using TLS.
 if env.bool('TLS_ENABLED', default = False):

@@ -2,14 +2,16 @@
   "name": "scaffold",
   "scripts": {},
   "env": {
+    "DJANGO_ALLOWED_HOSTS": {
+      "required": true,
+      "value": ".herokuapp.com"
+    },
     "DJANGO_DEBUG": {
       "required": true
     },
     "DJANGO_SECRET_KEY": {
-      "required": true
-    },
-    "DOMAIN": {
-      "required": true
+      "required": true,
+      "generator": "secret"
     },
     "TLS_ENABLED": {
       "required": true

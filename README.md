@@ -119,7 +119,7 @@ All the environment variables are stored in a .env file in the project root. The
 
 ### Always required
 
-* DOMAIN=localhost:8000 in development, your URL in production
+* DJANGO_ALLOWED_HOSTS=* in development, a list of URLs in production ([see the docs](https://docs.djangoproject.com/en/2.2/ref/settings/#allowed-hosts))
 * DJANGO_DEBUG=true in development, false in production
 * DJANGO_SECRET_KEY=Your Django app's secret key
 
