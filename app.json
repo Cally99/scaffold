@@ -1,0 +1,28 @@
+{
+  "name": "prismatic",
+  "scripts": {},
+  "env": {
+    "DJANGO_DEBUG": {
+      "required": true
+    },
+    "DJANGO_SECRET_KEY": {
+      "required": true
+    },
+    "DOMAIN": {
+      "required": true
+    },
+    "TLS_ENABLED": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [],
+  "stack": "container"
+}
