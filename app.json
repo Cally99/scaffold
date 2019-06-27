@@ -1,5 +1,5 @@
 {
-  "name": "prismatic",
+  "name": "scaffold",
   "scripts": {},
   "env": {
     "DJANGO_DEBUG": {
